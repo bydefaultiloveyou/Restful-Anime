@@ -1,6 +1,6 @@
 import axios from "axios";
 import cheerio from "cheerio";
-import { Anime, ListAnime, AnimeVideo, Genre } from "../utils/types";
+import { Anime, ListAnime, AnimeVideo, Genre } from "../../utils/anime/types";
 
 const BASEURL = "https://kuramanime.pro";
 

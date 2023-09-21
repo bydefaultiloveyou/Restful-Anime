@@ -1,7 +1,8 @@
 import express from "express";
 import cors from "cors";
 import axios from "axios";
-import kuramanime from "./source/kuramanime/kuramanime";
+import kuramanime from "./source/anime/kuramanime/kuramanime";
+import kiryuu from "./source/manga/kiryuu/kiryuu";
 
 export const app = express();
 
@@ -13,6 +14,7 @@ axios.defaults.headers.common["User-Agent"] =
 // middleware
 app.use(cors());
 app.use("/kuramanime", kuramanime);
+app.use("/kiryuu", kiryuu);
 
 // listen app
 app.listen(3000, () => console.warn("Ready to the Moon 🚀"));
