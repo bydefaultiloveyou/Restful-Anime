@@ -235,7 +235,7 @@ export const animeVideoSource = async (
     const url = await axios.head(`${BASEURL}/anime/${slug}`);
     const actualUrl = await url.request.res.responseUrl;
     const base = await axios.get(
-      actualUrl + `/episode/${ep}?activate_stream=1`
+      actualUrl + `/episode/${ep}`
     );
     const $ = cheerio.load(base.data);
     let videoSource: { quality: string; url: string }[] = [];
