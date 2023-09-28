@@ -210,7 +210,7 @@ const animeVideoSource = async (slug, ep) => {
     try {
         const url = await axios_1.default.head(`${BASEURL}/anime/${slug}`);
         const actualUrl = await url.request.res.responseUrl;
-        const base = await axios_1.default.get(actualUrl + `/episode/${ep}?activate_stream=1`);
+        const base = await axios_1.default.get(actualUrl + `/episode/${ep}`);
         const $ = cheerio_1.default.load(base.data);
         let videoSource = [];
         if (!$("#animeVideoPlayer video").html()) {
