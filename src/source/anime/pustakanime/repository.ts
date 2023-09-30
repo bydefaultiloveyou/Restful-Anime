@@ -32,7 +32,7 @@ export const recent = async () => {
 
 export const getAllAnime = async () => {
   try {
-    const q = query(animeRef, orderBy("title", "desc"));
+    const q = query(animeRef, orderBy("title", "asc"));
     const animeSnapshot = await getDocs(q);
     const data = animeSnapshot.docs.map((doc) => ({
       ...doc.data(),
