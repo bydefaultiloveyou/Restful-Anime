@@ -1,10 +1,11 @@
 import express, { Request, Response } from "express";
 import {
-  addEpisode,
+  addEpisodeStreaming,
   addAnime,
   recent,
-  getEpisode,
+  getUrlStreaming,
   getSpesificAnime,
+  getAllAnime,
 } from "./repository";
 
 const app = express.Router();
@@ -37,6 +38,11 @@ app.get("/recent", async (req: Request, res: Response) => {
 });
 
 // ===== Anime
+app.get("/animes", async (req: Request, res: Response) => {
+  const data = await getAllAnime();
+  return res.status(200).json(data);
+});
+
 app.get("/anime/:slug", async (req: Request, res: Response) => {
   const { slug } = req.params;
   const data = await getSpesificAnime(slug);
@@ -53,14 +59,14 @@ app.get(
   "/anime/:slug/episode/:episode",
   async (req: Request, res: Response) => {
     const { slug, episode } = req.params;
-    const data = await getEpisode(slug, parseInt(episode));
+    const data = await getUrlStreaming(slug, parseInt(episode));
     res.status(200).json(data);
   }
 );
 
 app.post("/anime/:slug/episode", async (req: Request, res: Response) => {
   const { slug } = req.params;
-  await addEpisode(slug, req.body);
+  await addEpisodeStreaming(slug, req.body);
   res.status(200).json({ message: "success" });
 });
 

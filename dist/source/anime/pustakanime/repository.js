@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addAnime = exports.getEpisode = exports.addEpisode = exports.getSpesificAnime = exports.recent = void 0;
+exports.getUrlStreaming = exports.addEpisodeStreaming = exports.getSpesificAnime = exports.addAnime = exports.getAllAnime = exports.recent = void 0;
 const firestore_1 = require("firebase/firestore");
 const db_1 = __importDefault(require("./db"));
 const animeRef = (0, firestore_1.collection)(db_1.default, "anime");
@@ -26,6 +26,37 @@ const recent = async () => {
     }
 };
 exports.recent = recent;
+const getAllAnime = async () => {
+    try {
+        const q = (0, firestore_1.query)(animeRef, (0, firestore_1.orderBy)("title", "desc"));
+        const animeSnapshot = await (0, firestore_1.getDocs)(q);
+        const data = animeSnapshot.docs.map((doc) => ({
+            ...doc.data(),
+        }));
+        return data;
+    }
+    catch (error) {
+        return error;
+    }
+};
+exports.getAllAnime = getAllAnime;
+/**
+ * Add new anime
+ * @param slug string
+ * @param body string
+ * @returns true
+ */
+const addAnime = async (body) => {
+    try {
+        return await (0, firestore_1.setDoc)((0, firestore_1.doc)(db_1.default, "anime", body.slug), {
+            ...body,
+        });
+    }
+    catch (error) {
+        return error;
+    }
+};
+exports.addAnime = addAnime;
 /**
  * Get anime by slug
  * @param slug string
@@ -62,7 +93,7 @@ exports.getSpesificAnime = getSpesificAnime;
  * @param episode string
  * @returns
  */
-const addEpisode = async (slug, body) => {
+const addEpisodeStreaming = async (slug, body) => {
     try {
         await (0, firestore_1.setDoc)((0, firestore_1.doc)(db_1.default, `anime/${slug}/episode`, `EPS${body.episode}`), {
             episode: body.episode,
@@ -80,14 +111,14 @@ const addEpisode = async (slug, body) => {
         return error;
     }
 };
-exports.addEpisode = addEpisode;
+exports.addEpisodeStreaming = addEpisodeStreaming;
 /**
  * Get spesific episode
  * @param slug string
  * @param episode string
  * @returns
  */
-const getEpisode = async (slug, episode) => {
+const getUrlStreaming = async (slug, episode) => {
     try {
         const episodeCollection = (0, firestore_1.collection)(db_1.default, `/anime/${slug}/episode`);
         const que = (0, firestore_1.query)(episodeCollection, (0, firestore_1.where)("episode", "==", episode.toString()));
@@ -104,21 +135,4 @@ const getEpisode = async (slug, episode) => {
         return error;
     }
 };
-exports.getEpisode = getEpisode;
-/**
- * Add new anime
- * @param slug string
- * @param body string
- * @returns true
- */
-const addAnime = async (body) => {
-    try {
-        return await (0, firestore_1.setDoc)((0, firestore_1.doc)(db_1.default, "anime", body.slug), {
-            ...body,
-        });
-    }
-    catch (error) {
-        return error;
-    }
-};
-exports.addAnime = addAnime;
+exports.getUrlStreaming = getUrlStreaming;

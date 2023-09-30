@@ -6,6 +6,7 @@ import {
   query,
   where,
   limit,
+  orderBy,
 } from "firebase/firestore";
 import db from "./db";
 
@@ -24,6 +25,35 @@ export const recent = async () => {
       ...doc.data(),
     }));
     return updateDoc;
+  } catch (error: any) {
+    return error;
+  }
+};
+
+export const getAllAnime = async () => {
+  try {
+    const q = query(animeRef, orderBy("title", "desc"));
+    const animeSnapshot = await getDocs(q);
+    const data = animeSnapshot.docs.map((doc) => ({
+      ...doc.data(),
+    }));
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
+
+/**
+ * Add new anime
+ * @param slug string
+ * @param body string
+ * @returns true
+ */
+export const addAnime = async (body: any) => {
+  try {
+    return await setDoc(doc(db, "anime", body.slug), {
+      ...body,
+    });
   } catch (error: any) {
     return error;
   }
@@ -75,7 +105,7 @@ export const getSpesificAnime = async (slug: string) => {
  * @param episode string
  * @returns
  */
-export const addEpisode = async (slug: string, body: any) => {
+export const addEpisodeStreaming = async (slug: string, body: any) => {
   try {
     await setDoc(doc(db, `anime/${slug}/episode`, `EPS${body.episode}`), {
       episode: body.episode,
@@ -99,7 +129,7 @@ export const addEpisode = async (slug: string, body: any) => {
  * @param episode string
  * @returns
  */
-export const getEpisode = async (slug: string, episode: number) => {
+export const getUrlStreaming = async (slug: string, episode: number) => {
   try {
     const episodeCollection = collection(db, `/anime/${slug}/episode`);
 
@@ -117,22 +147,6 @@ export const getEpisode = async (slug: string, episode: number) => {
       throw new Error("Episode not found");
     }
   } catch (error) {
-    return error;
-  }
-};
-
-/**
- * Add new anime
- * @param slug string
- * @param body string
- * @returns true
- */
-export const addAnime = async (body: any) => {
-  try {
-    return await setDoc(doc(db, "anime", body.slug), {
-      ...body,
-    });
-  } catch (error: any) {
     return error;
   }
 };

@@ -32,6 +32,10 @@ app.get("/recent", async (req, res) => {
     }
 });
 // ===== Anime
+app.get("/animes", async (req, res) => {
+    const data = await (0, repository_1.getAllAnime)();
+    return res.status(200).json(data);
+});
 app.get("/anime/:slug", async (req, res) => {
     const { slug } = req.params;
     const data = await (0, repository_1.getSpesificAnime)(slug);
@@ -44,12 +48,12 @@ app.post("/anime", async (req, res) => {
 // ===== episode
 app.get("/anime/:slug/episode/:episode", async (req, res) => {
     const { slug, episode } = req.params;
-    const data = await (0, repository_1.getEpisode)(slug, parseInt(episode));
+    const data = await (0, repository_1.getUrlStreaming)(slug, parseInt(episode));
     res.status(200).json(data);
 });
 app.post("/anime/:slug/episode", async (req, res) => {
     const { slug } = req.params;
-    await (0, repository_1.addEpisode)(slug, req.body);
+    await (0, repository_1.addEpisodeStreaming)(slug, req.body);
     res.status(200).json({ message: "success" });
 });
 exports.default = app;
