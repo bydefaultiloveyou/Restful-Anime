@@ -43,7 +43,7 @@ app.get("/anime/:slug", async (req, res) => {
 });
 app.post("/anime", async (req, res) => {
     await (0, repository_1.addAnime)(req.body);
-    res.status(200).json({ message: "success" });
+    res.status(200).json({ body: req.body });
 });
 // ===== episode
 app.get("/anime/:slug/episode/:episode", async (req, res) => {

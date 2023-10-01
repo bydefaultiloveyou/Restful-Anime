@@ -46,14 +46,10 @@ exports.getAllAnime = getAllAnime;
  * @returns true
  */
 const addAnime = async (body) => {
-    try {
-        return await (0, firestore_1.setDoc)((0, firestore_1.doc)(db_1.default, "anime", body.slug), {
-            ...body,
-        });
-    }
-    catch (error) {
-        return error;
-    }
+    console.log({ slug: body.slug });
+    return await (0, firestore_1.setDoc)((0, firestore_1.doc)(db_1.default, "anime", body.slug), {
+        ...body,
+    });
 };
 exports.addAnime = addAnime;
 /**
@@ -99,7 +95,7 @@ const addEpisodeStreaming = async (slug, body) => {
             video: body.video,
         });
         const data = await (0, exports.getSpesificAnime)(slug);
-        await (0, firestore_1.setDoc)((0, firestore_1.doc)(db_1.default, "/update", `${slug}-eps${body.episode}`), {
+        await (0, firestore_1.setDoc)((0, firestore_1.doc)(db_1.default, "update", `${slug}-eps${body.episode}`), {
             title: data[0].title,
             cover: data[0].cover,
             slug: data[0].slug,
