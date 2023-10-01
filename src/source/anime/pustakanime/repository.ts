@@ -49,13 +49,10 @@ export const getAllAnime = async () => {
  * @returns true
  */
 export const addAnime = async (body: any) => {
-  try {
-    return await setDoc(doc(db, "anime", body.slug), {
-      ...body,
-    });
-  } catch (error: any) {
-    return error;
-  }
+  console.log({ slug: body.slug });
+  return await setDoc(doc(db, "anime", body.slug), {
+    ...body,
+  });
 };
 
 /**
@@ -111,7 +108,7 @@ export const addEpisodeStreaming = async (slug: string, body: any) => {
       video: body.video,
     });
     const data = await getSpesificAnime(slug);
-    await setDoc(doc(db, "/update", `${slug}-eps${body.episode}`), {
+    await setDoc(doc(db, "update", `${slug}-eps${body.episode}`), {
       title: data[0].title,
       cover: data[0].cover,
       slug: data[0].slug,

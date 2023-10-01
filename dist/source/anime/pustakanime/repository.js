@@ -28,8 +28,7 @@ const recent = async () => {
 exports.recent = recent;
 const getAllAnime = async () => {
     try {
-        const q = (0, firestore_1.query)(animeRef, (0, firestore_1.orderBy)("title", "asc"));
-        const animeSnapshot = await (0, firestore_1.getDocs)(q);
+        const animeSnapshot = await (0, firestore_1.getDocs)(animeRef);
         const data = animeSnapshot.docs.map((doc) => ({
             ...doc.data(),
         }));

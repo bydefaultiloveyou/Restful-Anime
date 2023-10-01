@@ -4,7 +4,8 @@ import axios from "axios";
 import kuramanime from "./source/anime/kuramanime/kuramanime";
 import kiryuu from "./source/manga/kiryuu/kiryuu";
 import pustakanime from "./source/anime/pustakanime/pustakanime";
-import { getAllAnime } from "./source/anime/pustakanime/repository";
+import { addAnime, getAllAnime } from "./source/anime/pustakanime/repository";
+import { add } from "cheerio/lib/api/traversing";
 
 export const app = express();
 
@@ -15,6 +16,7 @@ axios.defaults.headers.common["User-Agent"] =
 
 // middleware
 app.use(cors());
+app.use(express.json());
 
 // anime
 app.use("/kuramanime", kuramanime);
